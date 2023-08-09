@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class FuelCalculator extends StatefulWidget {
   const FuelCalculator({super.key});
@@ -12,7 +11,26 @@ class FuelCalculator extends StatefulWidget {
 
 class __FuelCalculatorState extends State<FuelCalculator> {
   @override
-  Widget build(context) {
-    return const MaterialApp();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('SimRacing App'),
+        ),
+        body: Center(),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Calculator',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              label: 'Lap Times',
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
