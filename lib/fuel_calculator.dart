@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simracing_app/calculator_screen.dart';
+import 'package:flutter_simracing_app/times_screen.dart';
+import 'color_schemes.g.dart';
 
 class FuelCalculator extends StatefulWidget {
   const FuelCalculator({super.key});
@@ -10,14 +13,27 @@ class FuelCalculator extends StatefulWidget {
 }
 
 class __FuelCalculatorState extends State<FuelCalculator> {
+  int _selectedIndex = 0;
+  static const List<Widget> _widgetOptions = <Widget>[
+    CalculatorScreen(),
+    Times()
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+      darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('SimRacing App'),
+        body: Center(
+          child: _widgetOptions.elementAt(_selectedIndex),
         ),
-        body: Center(),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -29,6 +45,8 @@ class __FuelCalculatorState extends State<FuelCalculator> {
               label: 'Lap Times',
             ),
           ],
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
         ),
       ),
     );
