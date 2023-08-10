@@ -6,7 +6,15 @@ class CalculatorScreen extends StatelessWidget {
   @override
   Widget build(context) {
     return Container(
-      decoration: const BoxDecoration(color: Colors.black),
-    );
+        padding: const EdgeInsets.all(40),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            TextField(
+              decoration: InputDecoration(labelText: "Enter your number"),
+              keyboardType: TextInputType.number,
+            ),
+          ],
+        ));
   }
 }
