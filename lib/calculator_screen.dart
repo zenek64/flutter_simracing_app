@@ -9,11 +9,17 @@ class CalculatorScreen extends StatefulWidget {
 
 class _CalculatorScreenState extends State<CalculatorScreen> {
   var myController = TextEditingController();
+  int a = 0;
+  void oblicz() {
+    setState(() {
+      a = (int.parse(myController.text) + 5);
+    });
+  }
 
   @override
   Widget build(context) {
     return Container(
-      padding: const EdgeInsets.all(40),
+      padding: const EdgeInsets.all(8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -54,11 +60,35 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               ),
             )
           ]),
-          TextField(
-            decoration: const InputDecoration(labelText: "Enter your number"),
-            keyboardType: TextInputType.number,
-            controller: myController,
-          )
+          Container(
+            child: TextField(
+              decoration: const InputDecoration(labelText: "Enter your number"),
+              keyboardType: TextInputType.number,
+              controller: myController,
+            ),
+          ),
+          Container(
+            decoration: const BoxDecoration(color: Color(0xFFD1E4FF)),
+            width: double.infinity,
+            child: Column(children: [
+              Row(
+                children: [Text("Minimalna ilość paliwa"), Text(a.toString())],
+              ),
+              Row(
+                children: [
+                  Text("Rekomendowana ilość paliwa"),
+                  Text(myController.text)
+                ],
+              ),
+              Row(
+                children: [
+                  Text("Rekomendowana ilość paliwa"),
+                  Text(myController.text)
+                ],
+              )
+            ]),
+          ),
+          OutlinedButton(onPressed: oblicz, child: const Text('Calculate'))
         ],
       ),
     );
