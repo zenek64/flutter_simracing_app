@@ -8,11 +8,24 @@ class CalculatorScreen extends StatefulWidget {
 }
 
 class _CalculatorScreenState extends State<CalculatorScreen> {
-  var myController = TextEditingController();
-  int a = 0;
+  var raceLengthController = TextEditingController();
+  var minutesController = TextEditingController();
+  var secController = TextEditingController();
+  var fuelController = TextEditingController();
+  int raceLength = 0;
+  int time = 0;
+  double fuel = 0;
+  double results = 0;
   void oblicz() {
     setState(() {
-      a = (int.parse(myController.text) + 5);
+      time = Duration(
+              minutes: int.parse(minutesController.text),
+              seconds: int.parse(secController.text))
+          .inSeconds;
+      fuel = double.parse(fuelController.text);
+      raceLength =
+          Duration(minutes: int.parse(raceLengthController.text)).inSeconds;
+      results = ((raceLength / time) * fuel);
     });
   }
 
@@ -24,9 +37,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           TextField(
-            decoration: const InputDecoration(labelText: "Enter your number"),
+            decoration: const InputDecoration(labelText: "Race Length"),
             keyboardType: TextInputType.number,
-            controller: myController,
+            controller: raceLengthController,
           ),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             Container(
@@ -34,37 +47,26 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               height: 70,
               child: TextField(
                 decoration:
-                    const InputDecoration(labelText: "Enter your number"),
+                    const InputDecoration(labelText: "Lap Time (minutes)"),
                 keyboardType: TextInputType.number,
-                controller: myController,
+                controller: minutesController,
               ),
             ),
             Container(
               width: 100,
               height: 70,
               child: TextField(
-                decoration:
-                    const InputDecoration(labelText: "Enter your number"),
+                decoration: const InputDecoration(labelText: "Lap Time (sec)"),
                 keyboardType: TextInputType.number,
-                controller: myController,
-              ),
-            ),
-            Container(
-              width: 100,
-              height: 70,
-              child: TextField(
-                decoration:
-                    const InputDecoration(labelText: "Enter your number"),
-                keyboardType: TextInputType.number,
-                controller: myController,
+                controller: secController,
               ),
             )
           ]),
           Container(
             child: TextField(
-              decoration: const InputDecoration(labelText: "Enter your number"),
+              decoration: const InputDecoration(labelText: "Fuel per lap"),
               keyboardType: TextInputType.number,
-              controller: myController,
+              controller: fuelController,
             ),
           ),
           Container(
@@ -72,19 +74,16 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
             width: double.infinity,
             child: Column(children: [
               Row(
-                children: [Text("Minimalna ilość paliwa"), Text(a.toString())],
+                children: [Text("Minimum fuel"), Text(results.toString())],
               ),
               Row(
                 children: [
-                  Text("Rekomendowana ilość paliwa"),
-                  Text(myController.text)
+                  Text("Recommended fuel"),
+                  Text((results + fuel).toString())
                 ],
               ),
               Row(
-                children: [
-                  Text("Rekomendowana ilość paliwa"),
-                  Text(myController.text)
-                ],
+                children: [Text("Safe"), Text((results + fuel * 2).toString())],
               )
             ]),
           ),
