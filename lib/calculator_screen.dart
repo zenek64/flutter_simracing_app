@@ -8,10 +8,10 @@ class CalculatorScreen extends StatefulWidget {
 }
 
 class _CalculatorScreenState extends State<CalculatorScreen> {
-  var raceLengthController = TextEditingController();
-  var minutesController = TextEditingController();
-  var secController = TextEditingController();
-  var fuelController = TextEditingController();
+  final _raceLengthController = TextEditingController();
+  final _minutesController = TextEditingController();
+  final _secController = TextEditingController();
+  final _fuelController = TextEditingController();
   int raceLength = 0;
   int time = 0;
   double fuel = 0;
@@ -19,12 +19,12 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   void oblicz() {
     setState(() {
       time = Duration(
-              minutes: int.parse(minutesController.text),
-              seconds: int.parse(secController.text))
+              minutes: int.parse(_minutesController.text),
+              seconds: int.parse(_secController.text))
           .inSeconds;
-      fuel = double.parse(fuelController.text);
+      fuel = double.parse(_fuelController.text);
       raceLength =
-          Duration(minutes: int.parse(raceLengthController.text)).inSeconds;
+          Duration(minutes: int.parse(_raceLengthController.text)).inSeconds;
       results = ((raceLength / time) * fuel);
     });
   }
@@ -32,62 +32,81 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   @override
   Widget build(context) {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           TextField(
             decoration: const InputDecoration(labelText: "Race Length"),
             keyboardType: TextInputType.number,
-            controller: raceLengthController,
+            controller: _raceLengthController,
           ),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            Container(
-              width: 100,
+            SizedBox(
+              width: 150,
               height: 70,
               child: TextField(
                 decoration:
                     const InputDecoration(labelText: "Lap Time (minutes)"),
                 keyboardType: TextInputType.number,
-                controller: minutesController,
+                controller: _minutesController,
               ),
             ),
-            Container(
-              width: 100,
+            SizedBox(
+              width: 150,
               height: 70,
               child: TextField(
                 decoration: const InputDecoration(labelText: "Lap Time (sec)"),
                 keyboardType: TextInputType.number,
-                controller: secController,
+                controller: _secController,
               ),
             )
           ]),
-          Container(
+          SizedBox(
             child: TextField(
               decoration: const InputDecoration(labelText: "Fuel per lap"),
               keyboardType: TextInputType.number,
-              controller: fuelController,
+              controller: _fuelController,
             ),
           ),
+          const SizedBox(
+            height: 16,
+          ),
           Container(
-            decoration: const BoxDecoration(color: Color(0xFFD1E4FF)),
+            decoration: const BoxDecoration(
+                color: Color(0xFFD1E4FF),
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            padding: const EdgeInsets.all(16),
             width: double.infinity,
             child: Column(children: [
               Row(
-                children: [Text("Minimum fuel"), Text(results.toString())],
+                children: [
+                  const Text("Minimum fuel: "),
+                  Text(results.toStringAsFixed(2))
+                ],
+              ),
+              const SizedBox(
+                height: 8,
               ),
               Row(
                 children: [
-                  Text("Recommended fuel"),
-                  Text((results + fuel).toString())
+                  const Text("Recommended fuel: "),
+                  Text((results + fuel).toStringAsFixed(2))
                 ],
               ),
+              const SizedBox(
+                height: 8,
+              ),
               Row(
-                children: [Text("Safe"), Text((results + fuel * 2).toString())],
+                children: [
+                  const Text("Safe: "),
+                  Text((results + fuel * 2).toStringAsFixed(2))
+                ],
               )
             ]),
           ),
-          OutlinedButton(onPressed: oblicz, child: const Text('Calculate'))
+          const SizedBox(height: 8),
+          FilledButton(onPressed: oblicz, child: const Text('Calculate'))
         ],
       ),
     );
