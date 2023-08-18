@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "11952765893",
+    "project_id": "simracing-app-81110",
+    "storage_bucket": "simracing-app-81110.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11952765893:android:c06b60a5592a2967d0a9ac",
+        "android_client_info": {
+          "package_name": "com.example.flutter_simracing_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11952765893-p9hith24u4c5pkkena5b0mpnbdafn6v5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNNsU6NqQIZWVregmAPjAXIexNY9s3EUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11952765893-p9hith24u4c5pkkena5b0mpnbdafn6v5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
