@@ -18,6 +18,66 @@ class _TimesState extends State<Times> {
   final CollectionReference _lapTimes =
       FirebaseFirestore.instance.collection('tblLapTimes');
 
+  Future<void> _delete(String productId) async {
+    await _lapTimes.doc(productId).delete();
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('You have successfully deleted a product')));
+  }
+
+  Future<void> _update([DocumentSnapshot? documentSnapshot]) async {
+    if (documentSnapshot != null) {
+      _carName.text = documentSnapshot['CarName'];
+      _trackName.text = documentSnapshot['TrackName'].toString();
+    }
+
+    await showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext ctx) {
+          return Padding(
+            padding: EdgeInsets.only(
+                top: 20,
+                left: 20,
+                right: 20,
+                bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: _carName,
+                  decoration: const InputDecoration(labelText: 'Car'),
+                ),
+                TextField(
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  controller: _trackName,
+                  decoration: const InputDecoration(
+                    labelText: 'Track',
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  child: const Text('Update'),
+                  onPressed: () async {
+                    final String name = _carName.text;
+                    final String price = _trackName.text;
+                    await _lapTimes
+                        .doc(documentSnapshot!.id)
+                        .update({"CarName": name, "TrackName": price});
+                    _carName.text = '';
+                    _trackName.text = '';
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ),
+          );
+        });
+  }
+
   Future<void> _create([DocumentSnapshot? documentSnapshot]) async {
     await showModalBottomSheet(
         isScrollControlled: true,
@@ -58,7 +118,7 @@ class _TimesState extends State<Times> {
                     _trackName.text = '';
                     Navigator.of(context).pop();
                   },
-                )
+                ),
               ],
             ),
           );
@@ -84,6 +144,21 @@ class _TimesState extends State<Times> {
                           child: ListTile(
                             title: Text(documentSnapshot['CarName']),
                             subtitle: Text(documentSnapshot['TrackName']),
+                            trailing: SizedBox(
+                              width: 100,
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                      icon: const Icon(Icons.edit),
+                                      onPressed: () =>
+                                          _update(documentSnapshot)),
+                                  IconButton(
+                                      icon: const Icon(Icons.delete),
+                                      onPressed: () =>
+                                          _delete(documentSnapshot.id)),
+                                ],
+                              ),
+                            ),
                           ));
                     });
               }
